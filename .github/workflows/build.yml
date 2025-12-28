@@ -16,12 +16,12 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [macos-14, macos-26, ubuntu-24.04]
+        os: [macos-14, macos-15, macos-26, ubuntu-24.04]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - if: matrix.os == 'macos-14'
+      - if: matrix.os == 'macos-14' || matrix.os == 'macos-15'
         run: make patch-package-swift-legacy
       - run: make
       - run: make test COVERAGE=1
@@ -43,7 +43,7 @@ jobs:
         env:
           TOOLCHAINS: swift
           ALPINE_KEY: ${{ secrets.ALPINE_KEY }}
-        if: runner.os == 'macOS' && matrix.os != 'macos-14'
+        if: runner.os == 'macOS' && matrix.os != 'macos-14' && matrix.os != 'macos-15'
       - name: Upload packages
         uses: actions/upload-artifact@v4
         with:
@@ -53,7 +53,7 @@ jobs:
             .build/age-plugin-se-*.zip
             .build/age-plugin-se-*.apk
           include-hidden-files: true
-        if: matrix.os != 'macos-14'
+        if: matrix.os != 'macos-14' && matrix.os != 'macos-15'
 
       # Build & upload site artifacts
       # Deploy happens in the `build-main` workflow, which only runs on main
@@ -66,7 +66,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: .build/site
-        if: runner.os == 'macOS' && matrix.os != 'macos-14'
+        if: runner.os == 'macOS' && matrix.os != 'macos-14' && matrix.os != 'macos-15'
 
   # Running swift from the Makefile doesn't work (yet), so we have a separate
   # build procedure for windows.
