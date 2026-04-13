@@ -7,8 +7,8 @@ age-plugin-se - age plugin for Apple Secure Enclave
 
 # SYNOPSIS
 
-*age-plugin-se* *keygen* \[*--pq*\] \[*-o* _OUTPUT_\] \[*--access-control* _ACCESS_CONTROL_\] \[*--recipient-type* _RECIPIENT_TYPE_\]++
-*age-plugin-se* *recipients* \[*--pq*\] \[*-o* _OUTPUT_\] \[*-i* _INPUT_\] \[*--recipient-type* _RECIPIENT_TYPE_\]
+*age-plugin-se* *keygen* \[*--no-pq*\] \[*-o* _OUTPUT_\] \[*--access-control* _ACCESS_CONTROL_\] \[*--recipient-type* _RECIPIENT_TYPE_\]++
+*age-plugin-se* *recipients* \[*--no-pq*\] \[*-o* _OUTPUT_\] \[*-i* _INPUT_\] \[*--recipient-type* _RECIPIENT_TYPE_\]
 
 
 # DESCRIPTION
@@ -50,7 +50,11 @@ output.
 
 *--pq*
 
-	Generate post-quantum keys
+	Generate post-quantum keys (default).
+
+*--no-pq*
+
+	Generate classical (non-post-quantum) keys.
 
 *--recipient-type* _RECIPIENT_TYPE_
 
@@ -59,11 +63,10 @@ output.
 	*tag* recipients use built-in support in age (>=v1.3.0), and don't require
 	this plug-in to be installed to encrypt.
 
-	Post-quantum keys (generated with *--pq*) always use the *tag* recipient type.
+	Post-quantum keys (the default; disable with *--no-pq*) always use the *tag* recipient type.
 
 	Supported values: *se*, *tag*.
-	Default: *se*.
-	The default will change to *tag* in future versions.
+	Default: *tag*.
 
 
 # EXAMPLES

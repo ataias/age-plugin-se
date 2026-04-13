@@ -95,7 +95,7 @@ struct Options {
   var output: String?
   var input: String?
 
-  var pq: Bool = false
+  var pq: Bool = true
 
   enum AccessControl: String {
     case none = "none"
@@ -132,13 +132,13 @@ struct Options {
     }
   }
 
-  var recipientType: RecipientType = .se
+  var recipientType: RecipientType = .tag
 
   static let help =
     """
     Usage:
-      age-plugin-se keygen [--pq] [-o OUTPUT] [--access-control ACCESS_CONTROL] [--recipient-type RECIPIENT_TYPE]
-      age-plugin-se recipients [--pq] [-o OUTPUT] [-i INPUT] [--recipient-type RECIPIENT_TYPE]
+      age-plugin-se keygen [--no-pq] [-o OUTPUT] [--access-control ACCESS_CONTROL] [--recipient-type RECIPIENT_TYPE]
+      age-plugin-se recipients [--no-pq] [-o OUTPUT] [-i INPUT] [--recipient-type RECIPIENT_TYPE]
 
     Description:
       The `keygen` subcommand generates a new private key bound to the current 
@@ -166,7 +166,9 @@ struct Options {
 
       -o, --output OUTPUT               Write the result to the file at path OUTPUT
 
-      --pq                              Generate post-quantum keys
+      --pq                              Generate post-quantum keys (default)
+
+      --no-pq                           Generate classical (non-post-quantum) keys
 
       --recipient-type RECIPIENT_TYPE   Recipient type to generate.
 
@@ -178,8 +180,7 @@ struct Options {
                                         use the `tag` recipient type.
 
                                         Supported values: se, tag.
-                                        Default: se.
-                                        The default will change to `tag` in future versions.
+                                        Default: tag.
 
     Example:
       $ age-plugin-se keygen -o key.txt
@@ -205,6 +206,8 @@ struct Options {
         break
       } else if ["--pq"].contains(arg) {
         opts.pq = true
+      } else if ["--no-pq"].contains(arg) {
+        opts.pq = false
       } else if [
         "--age-plugin", "-i", "--input", "-o", "--output", "--access-control", "--recipient-type",
       ].contains(where: {

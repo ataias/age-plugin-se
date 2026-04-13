@@ -21,8 +21,14 @@ final class OptionsTests: XCTestCase {
   func testParse_Keygen() throws {
     let options = try Options.parse(["_", "keygen", "--access-control=any-biometry"])
     XCTAssertEqual(.keygen, options.command)
-    XCTAssertEqual(false, options.pq)
+    XCTAssertEqual(true, options.pq)
     XCTAssertEqual(.anyBiometry, options.accessControl)
+  }
+
+  func testParse_Keygen_NoPQ() throws {
+    let options = try Options.parse(["_", "keygen", "--access-control=any-biometry", "--no-pq"])
+    XCTAssertEqual(.keygen, options.command)
+    XCTAssertEqual(false, options.pq)
   }
 
   func testParse_Keygen_PQ() throws {
@@ -43,10 +49,18 @@ final class OptionsTests: XCTestCase {
       "_", "recipients", "--output=recipients.txt", "--input=identity.txt",
     ])
     XCTAssertEqual(.recipients, options.command)
-    XCTAssertEqual(.se, options.recipientType)
-    XCTAssertEqual(false, options.pq)
+    XCTAssertEqual(.tag, options.recipientType)
+    XCTAssertEqual(true, options.pq)
     XCTAssertEqual("identity.txt", options.input)
     XCTAssertEqual("recipients.txt", options.output)
+  }
+
+  func testParse_Recipients_NoPQ() throws {
+    let options = try Options.parse([
+      "_", "recipients", "--output=recipients.txt", "--input=identity.txt", "--no-pq",
+    ])
+    XCTAssertEqual(.recipients, options.command)
+    XCTAssertEqual(false, options.pq)
   }
 
   func testParse_Recipients_PQ() throws {

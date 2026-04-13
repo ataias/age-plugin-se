@@ -259,8 +259,8 @@ do have `age-plugin-yubikey` installed, you can also convert the `se` recipient 
 
 ## Usage
 
-    age-plugin-se keygen [--pq] [-o OUTPUT] [--access-control ACCESS_CONTROL] [--recipient-type RECIPIENT_TYPE]
-    age-plugin-se recipients [--pq] [-o OUTPUT] [-i INPUT] [--recipient-type RECIPIENT_TYPE]
+    age-plugin-se keygen [--no-pq] [-o OUTPUT] [--access-control ACCESS_CONTROL] [--recipient-type RECIPIENT_TYPE]
+    age-plugin-se recipients [--no-pq] [-o OUTPUT] [-i INPUT] [--recipient-type RECIPIENT_TYPE]
 
     The `keygen` subcommand generates a new private key bound to the current 
     Secure Enclave, with the given access controls, and outputs it to OUTPUT 
@@ -286,7 +286,9 @@ do have `age-plugin-yubikey` installed, you can also convert the `se` recipient 
 
       -i, --input INPUT                 Read data from the file at path INPUT
 
-      --pq                              Generate post-quantum keys
+      --pq                              Generate post-quantum keys (default)
+
+      --no-pq                           Generate classical (non-post-quantum) keys
 
       --recipient-type RECIPIENT_TYPE   Recipient type to generate.
 
@@ -294,12 +296,11 @@ do have `age-plugin-yubikey` installed, you can also convert the `se` recipient 
                                         age (>=v1.3.0), and don't require this plug-in to
                                         be installed to encrypt.
 
-                                        Post-quantum keys (generated with `--pq`) always
-                                        use the `tag` recipient type.
+                                        Post-quantum keys (the default; disable with `--no-pq`)
+                                        always use the `tag` recipient type.
 
                                         Supported values: se, tag.
-                                        Default: se.
-                                        The default will change to `tag` in future versions.
+                                        Default: tag.
 
 ## Development
 
